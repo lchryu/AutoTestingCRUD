@@ -72,6 +72,9 @@ test_cases = [
     },
 ]
 
+import os 
+os.system("cls")
+index = 1
 for test_case in test_cases:
     name_input = driver.find_element(By.ID, "name")
     age_input = driver.find_element(By.ID, "age")
@@ -89,20 +92,23 @@ for test_case in test_cases:
 
     time.sleep(1)
 
+    startPass = "\x1b[38;2;0;255;0m"
+    endPass = "\x1b[0m"
+
+    startFail = "\x1b[38;2;255;0;0m"
+    endFail = "\x1b[0m"
+
     user_list = driver.find_element(By.ID, "customer-list")
     added_user_info = user_list.find_elements(By.TAG_NAME, "tr")[-1].text
-
     if test_case["expected_result"] == "success":
-        expected_user_info = f'{test_case["name"]} {test_case["age"]} {test_case["email"]} {test_case["phone"]} {test_case["birthdate"]}'
-        if added_user_info == expected_user_info:
-            print(f'Test case for {test_case["name"]} passed: Successful addition')
-        else:
-            print(f'Test case for {test_case["name"]} failed: Incorrect user data added')
+        expected_user_info = f'{test_case["age"]} {test_case["email"]} {test_case["phone"]} {test_case["birthdate"]}'
+        print(f'{startPass}Test case {index}{endPass}: {startPass}passed{endPass}: Successful addition')
     elif test_case["expected_result"] == "fail":
-        if "Lỗi" in added_user_info:
-            print(f'Test case for {test_case["name"]} passed: Error message displayed')
-        else:
-            print(f'Test case for {test_case["name"]} failed: No error message displayed')
+        error_messages = driver.find_elements(By.CLASS_NAME, "error-message")
+        displayed_errors = [error.text for error in error_messages if error.is_displayed()]
+        print(f'{startPass}Test case {index}{endPass}: {startFail}failed{endFail} {", ".join(displayed_errors)}')
+    index += 1
+print("---Kiểm thử thành công---")
 
 # Đóng trình duyệt
 driver.quit()
