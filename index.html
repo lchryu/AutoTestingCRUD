@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản lý Khách hàng</title>
+    <!-- Sử dụng Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Quản lý Khách hàng</h1>
+        <form id="customer-form">
+            <div class="form-group">
+                <label for="name">Tên:</label>
+                <input type="text" class="form-control" id="name" required>
+                <div id="name-error" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="age">Tuổi:</label>
+                <input type="number" class="form-control" id="age" required>
+                <div id="age-error" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" required>
+                <div id="email-error" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" class="form-control" id="phone" required>
+                <div id="phone-error" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">Ngày sinh:</label>
+                <input type="text" class="form-control" id="birthdate" placeholder="DD/MM/YYYY" required>
+                <div id="birthdate-error" class="error-message"></div>
+            </div>
+            <button type="button" class="btn btn-primary" id="add-button">Thêm</button>
+        </form>
+        <div class="mt-4">
+            <h2>Danh sách Khách hàng</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tên</th>
+                        <th>Tuổi</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Ngày sinh</th>
+                    </tr>
+                </thead>
+                <tbody id="customer-list">
+                    <!-- Dữ liệu Khách hàng sẽ được hiển thị ở đây -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Sử dụng Bootstrap JavaScript và jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+</body>
+<script src="./logic.js"></script>
+</html>
