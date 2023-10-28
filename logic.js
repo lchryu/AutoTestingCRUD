@@ -1,5 +1,30 @@
 // Mảng để lưu trữ danh sách Khách hàng
 const customers = [];
+// Sẵn 3 đối tượng trong mảng lưu trữ khách hàng
+customers.push(
+    {
+        name: "Trần Nguyễn Trung Kiên",
+        age: 30,
+        email: "kiendeptrai@example.com",
+        phone: "0356789123",
+        birthdate: "10/10/1990"
+    },
+    {
+        name: "Hồ Ngọc Hà",
+        age: 25,
+        email: "HaHo@example.com",
+        phone: "0798765432",
+        birthdate: "05/05/1997"
+    },
+    {
+        name: "Lương Hồng Lan",
+        age: 40,
+        email: "lan@example.com",
+        phone: "0834567890",
+        birthdate: "08/08/1983"
+    }
+);
+
 
 const nameInput = document.getElementById("name");
 const ageInput = document.getElementById("age");
@@ -16,6 +41,10 @@ const birthdateError = document.getElementById("birthdate-error");
 const customerForm = document.getElementById("customer-form");
 const customerTable = document.getElementById("customer-list");
 const addButton = document.getElementById("add-button");
+
+// init(load data from db)
+updateTable()
+
 
 addButton.addEventListener("click", () => {
     const name = nameInput.value.trim();
@@ -47,6 +76,12 @@ addButton.addEventListener("click", () => {
         isValid = false;
     }
 
+    // Kiểm tra email đã tồn tại hay chưa
+    if (isEmailExist(email)) {
+        emailError.textContent = "Email đã tồn tại trong danh sách.";
+        isValid = false;
+    }
+
     if (phone.length !== 10 || !/^(03|05|07|08|09)\d{8}$/.test(phone)) {
         phoneError.textContent = "Vui lòng nhập số điện thoại hợp lệ (03x, 05x, 07x, 08x, 09x).";
         isValid = false;
@@ -58,7 +93,7 @@ addButton.addEventListener("click", () => {
     }
 
     if (isValid) {
-        // Thêm Khách hàng vào mảng và cập nhật bảng
+        // Thêm Khách hàng vào db và cập nhật bảng
         customers.push({ name, age, email, phone, birthdate });
         updateTable();
     }
@@ -107,4 +142,10 @@ function isValidDate(dateString) {
     }
 
     return true;
+}
+
+
+// Function để kiểm tra email đã tồn tại
+function isEmailExist(email) {
+    return customers.some(customer => customer.email === email);
 }

@@ -69,6 +69,15 @@ test_cases = [
         "phone": "0987654321",
         "birthdate": "01-10-1990",
         "expected_result": "fail"
+    },   
+    # Kiểm tra email đã tồn tại
+    {
+        "name": "John Doe",
+        "age": "30",
+        "email": "john.doe@example.com",
+        "phone": "0987654321",
+        "birthdate": "10/01/1990",
+        "expected_result": "fail"
     },
 ]
 
