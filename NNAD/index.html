@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý hóa đơn</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Quản lý hóa đơn</h1>
+      <form id="invoice-form" class="mt-4">
+        <div class="form-group">
+          <label for="customer-id">ID Khách hàng:</label>
+          <input type="text" class="form-control" id="customer-id" required />
+          <div id="customer-id-error" class="error-message text-danger"></div>
+        </div>
+        <div class="form-group">
+          <label for="book-id">ID Sách:</label>
+          <input type="text" class="form-control" id="book-id" required />
+          <div id="book-id-error" class="error-message text-danger"></div>
+        </div>
+        <div class="form-group">
+          <label for="quantity">Số lượng:</label>
+          <input type="number" class="form-control" id="quantity" required />
+          <div id="quantity-error" class="error-message text-danger"></div>
+        </div>
+        <button type="button" class="btn btn-primary" id="add-button">
+          Thêm vào hóa đơn
+        </button>
+      </form>
+      <h2 class="mt-4">Hóa đơn</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Tên sách</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="invoice-list">
+          <!-- Dữ liệu hóa đơn sẽ được hiển thị ở đây -->
+        </tbody>
+      </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <!-- <script src="script.js"></script> -->
+  </body>
+  <script>
+    // Mảng để lưu trữ danh sách hóa đơn
+    const invoices = [];
+
+    const customerIdInput = document.getElementById("customer-id");
+    const bookIdInput = document.getElementById("book-id");
+    const quantityInput = document.getElementById("quantity");
+
+    const customerIdError = document.getElementById("customer-id-error");
+    const bookIdError = document.getElementById("book-id-error");
+    const quantityError = document.getElementById("quantity-error");
+
+    const invoiceForm = document.getElementById("invoice-form");
+    const invoiceList = document.getElementById("invoice-list");
+    const addButton = document.getElementById("add-button");
+
+    addButton.addEventListener("click", () => {
+      const customerId = customerIdInput.value.trim();
+      const bookId = bookIdInput.value.trim();
+      const quantity = quantityInput.value;
+
+      // Kiểm tra dữ liệu đầu vào
+      let isValid = true;
+      customerIdError.textContent = "";
+      bookIdError.textContent = "";
+      quantityError.textContent = "";
+
+      if (customerId === "" || !/^\d+$/.test(customerId)) {
+        customerIdError.textContent = "Vui lòng nhập ID Khách hàng hợp lệ.";
+        isValid = false;
+      }
+
+      if (bookId === "" || !/^\d+$/.test(bookId)) {
+        bookIdError.textContent = "Vui lòng nhập ID Sách hợp lệ.";
+        isValid = false;
+      }
+
+      if (isNaN(quantity) || quantity <= 0) {
+        quantityError.textContent = "Vui lòng nhập số lượng hợp lệ.";
+        isValid = false;
+      }
+
+      if (isValid) {
+        // Thêm hóa đơn vào mảng và cập nhật bảng
+        const invoice = { customerId, bookId, quantity };
+        invoices.push(invoice);
+        updateTable();
+      }
+      invoiceForm.reset();
+    });
+
+    function updateTable() {
+      invoiceList.innerHTML = "";
+      invoices.forEach((invoice, index) => {
+        const row = invoiceList.insertRow();
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+        const cell4 = row.insertCell(3);
+
+        // Ở đây, bạn cần có dữ liệu sách và tính toán thành tiền
+        const bookName = "Tên sách"; // Thay thế bằng tên sách thực tế
+        const total = invoice.quantity * 10; // Giả sử giá mỗi quyển sách là 10 đơn vị tiền
+
+        cell1.innerHTML = bookName;
+        cell2.innerHTML = invoice.quantity;
+        cell3.innerHTML = total;
+        cell4.innerHTML = `<button type="button" class="btn btn-danger" onclick="deleteInvoice(${index})">Xóa</button>`;
+      });
+    }
+
+    function deleteInvoice(index) {
+      invoices.splice(index, 1);
+      updateTable();
+    }
+  </script>
+</html>
